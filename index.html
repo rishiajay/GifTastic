@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Favorite Animals</title>
+    <style type="text/css">
+        button,
+        div,
+        form,
+        input {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Animals</h1>
+    </div>
+
+    <!--Animals will get put here-->
+    <div id="button view"></div>
+    <form id="animal-form">
+        <label for="animal-input">Add an animal</label>
+        <input type="text" id="animal-input"><br>
+
+        <!--Button makes new animal added-->
+        <input id="add-animal" type="submit" value="Add an animal!">
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+
+        // create an array of strings of my interest
+        var animals = ["Bird", "Cat", "Dog"];
+
+
+        $(".search").on("click", function () {
+            console.log()
+            // Constructing a queryURL using the animal name
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+                animal + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
+            // Performing an AJAX request with the queryURL
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+                // After the data from the AJAX request comes back
+                .then(function (response) {
+                    console.log(queryURL);
+                    // storing the data from the AJAX request in the results variable
+                    console.log(response);
+                    // storing the data from the AJAX request in the results variable
+                    var results = response.data;
+                    //$("div").animate({left: '250px'});
+                });
+        })
+
+        // save to variable called topics
+        function renderButtons() {
+            // take topics in the array and create buttons in html
+            $("#buttons-view").empty();
+
+            // use loop that appends button for each string in array
+            for (var i = 0; i < animals.length; i++) {
+
+                // Creating and storing a div tag
+                var animalDiv = $("<div>");
+
+                // Creating a paragraph tag with the result item's rating
+                var p = $("<p>").text("Rating: " + results[i].rating);
+
+                // Creating and storing an image tag
+                var animalImage = $("<img>");
+                // Setting the src attribute of the image to a property pulled off the result item
+                animalImage.attr("src", results[i].images.fixed_height.url);
+
+                // Appending the paragraph and image tag to the animalDiv
+                animalDiv.append(p);
+                animalDiv.append(animalImage);
+
+                // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
+                $("#gifs-appear-here").prepend(animalDiv);
+
+
+
+                // Then dynamicaly generating buttons for each animal in the array.
+                // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
+                var a = $("<button>");
+                // Adding a class
+                a.addClass("animal");
+                // Adding a data-attribute with a value of the animal at index i
+                a.attr("data-name", animals[i]);
+                // Providing the button's text with a value of the animal at index i
+                a.text(animals[i]);
+                // Adding the button to the HTML
+                $("#buttons-view").append(a);
+
+
+                // when user clicks a GIPHY image, gif should animate
+                $(document).ready(function () {
+
+                });
+                // click again, stop playing
+                $("#stop").click(function () {
+                    $("div").stop();
+                });
+
+                // add a data-attribute with a value of animal at index i
+                a.attr("data-name", animals[i]);
+                // add button to HTML
+                $("#buttons-view").append(a);
+
+                renderButtons();
+
+            }
+        }
+
+        // display rating under all gifs
+        // console.log(GIF);
+        // add form to page that takes value from user input box 
+        //var animals = $("#animals-input").val().trim();
+
+        // and adds it to topic array
+        animals.push(animals);
+        // make a function call that takes each topic in the array remakes buttons on the page
+        renderButtons();
+
+
+    
+</body >
+</html >

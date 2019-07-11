@@ -1,0 +1,69 @@
+// The base code of this was from class activity 07-movie-button-layout, and cat button
+// It will be modified to meet the spec of the assignment
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Favorite Animals</title>
+    <style type="text/css">
+        button,
+        div,
+        form,
+        input {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Animals</h1>
+    </div>
+
+    <!--Animals will get put here-->
+    <div id="button view">
+        <form id="animal-form">
+            <label for="animal-input">Add an animal</label>
+            <input type="text" id="animal-input"><br>
+
+            <!--Button makes new animal added-->
+            <input id="add-animal" type="submit" value="Add an animal!">
+        </form>
+        <button class="search">search</button>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            // create an array of strings of my interest
+            var animals = ["Bird", "Cat", "Dog"];
+
+            $(".search").on("click", function () {
+                var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&tag=animals";
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
+                    // After the data from the AJAX request comes back
+                    .then(function (response) {
+
+                        // Saving the image_original_url property
+                        var imageUrl = response.data.image_original_url;
+
+                        // Creating and storing an image tag
+                        var animalImage = $("<img>");
+
+                        // Setting the animalImage src attribute to imageUrl
+                        animalImage.attr("src", imageUrl);
+                        animalImage.attr("alt", "animal image");
+
+                        // Prepending the animalImage to the images div
+                        $("#images").prepend(animalImage);
+                    });
+            });
+
+        </script>
+    </div>
+</body>
+
+</html>
